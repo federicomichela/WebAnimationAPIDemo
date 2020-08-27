@@ -1,0 +1,47 @@
+{
+  "animations": {
+    "basePath": "../assets/sprites/",
+    "list": {
+      "cb_dead": {
+        "label": "Dead Cute Boy",
+        "path": "CuteBoy/dead"
+      },
+      "cb_idle": {
+        "label": "Idle Cute Boy",
+        "path": "CuteBoy/idle"
+      },
+      "cb_jump": {
+        "label": "Jumping Cute Boy",
+        "path": "CuteBoy/jump"
+      },
+      "cb_run": {
+        "label": "Running Cute Boy",
+        "path": "CuteBoy/run"
+      },
+      "cb_walk": {
+        "label": "Walking Cute Boy",
+        "path": "CuteBoy/walk"
+      },
+      "cg_dead": {
+        "label": "Dead Cute Girl",
+        "path": "CuteGirl/dead"
+      },
+      "cg_idle": {
+        "label": "Idle Cute Girl",
+        "path": "CuteGirl/idle"
+      },
+      "cg_jump": {
+        "label": "Jumping Cute Girl",
+        "path": "CuteGirl/jump"
+      },
+      "cg_run": {
+        "label": "Running Cute Girl",
+        "path": "CuteGirl/run"
+      },
+      "cg_walk": {
+        "label": "Walking Cute Girl",
+        "path": "CuteGirl/walk"
+      }
+    }
+  }
+}

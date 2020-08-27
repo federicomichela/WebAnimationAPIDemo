@@ -37,10 +37,19 @@
   </script>
   <script src="https://www.google-analytics.com/analytics.js" async></script>
 
+  <h2>
+    Create a new animation by selecting one from the dropdown menu and clicking the button CREATE
+  </h2>
+  <div class="creationSection">
+    <select id="animationPicker" name="animationPicker"></select>
+    <button onclick="createAnimation()">CREATE</button>
+  </div>
+
   <div id="animationsContainer">
     <div class="animation">
+      <div class="animation_label">Idle Cute Girl</div>
       <div class="animationContainer">
-        <img class="animationFrame" src="../img/sprites/CuteGirl/idle.png" />
+        <img class="animationFrame" src="../assets/sprites/CuteGirl/idle.png" />
       </div>
       <div class="controls">
         <button class="playBtn" onclick="play(this)">PLAY</button>
