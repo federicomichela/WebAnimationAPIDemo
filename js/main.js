@@ -1,9 +1,9 @@
 const animationComponent = `
-<div class="animation">
-  <div class="animation-bg"></div>
+<section class="animation">
+  <div class="animation-bg pixelart"></div>
   <div class="animation-label"></div>
   <div class="animation-container">
-    <img class="animation-frame" src="" alt=""/>
+    <img class="animation-frame pixelart" src="" alt=""/>
   </div>
   <div class="animation-controls">
     <div class="message"></div>
@@ -13,7 +13,7 @@ const animationComponent = `
     <button class="btn-pause material-icons" onclick="pause(this)" disabled></button>
     <button class="btn-stop material-icons" onclick="stop(this)" disabled></button>
   </div>
-</div>
+</section>
 `;
 
 /**
@@ -81,11 +81,13 @@ const createAnimation = function() {
 const play = function(target) {
   const animationContainer = target.parentElement.parentElement.querySelector(".animation-container");
   const $animation = _getFrameElement(animationContainer);
+  const $bg = $animation.parentElement.parentElement.querySelector(".animation-bg");
 
   if ($animation) {
     $animation.animation.loop = false;
     $animation.animation.playbackRate = 1;
     $animation.animation.play();
+    $bg.animation.play();
 
     animationContainer.parentElement.querySelector(".animation-controls .btn-play").disabled = true;
     animationContainer.parentElement.querySelector(".animation-controls .btn-reverse").disabled = false;
@@ -101,10 +103,12 @@ const play = function(target) {
 const loop = function(target) {
   const animationContainer = target.parentElement.parentElement.querySelector(".animation-container");
   const $animation = _getFrameElement(animationContainer);
+  const $bg = $animation.parentElement.parentElement.querySelector(".animation-bg");
 
   if ($animation) {
     $animation.animation.loop = true;
     $animation.animation.play();
+    $bg.animation.play();
 
     animationContainer.parentElement.querySelector(".animation-controls .btn-play").disabled = true;
     animationContainer.parentElement.querySelector(".animation-controls .btn-reverse").disabled = true;
@@ -120,10 +124,13 @@ const loop = function(target) {
 const reverse = function(target) {
   const animationContainer = target.parentElement.parentElement.querySelector(".animation-container");
   const $animation = _getFrameElement(animationContainer);
+  const $bg = $animation.parentElement.parentElement.querySelector(".animation-bg");
 
   if ($animation) {
     $animation.animation.loop = false;
-    $animation.animation.reverse();
+    $animation.animation.playbackRate = -1;
+    $animation.animation.play();
+    $bg.animation.playState !== "running" && $bg.animation.play();
 
     animationContainer.parentElement.querySelector(".animation-controls .btn-play").disabled = false;
     animationContainer.parentElement.querySelector(".animation-controls .btn-reverse").disabled = true;
@@ -139,9 +146,11 @@ const reverse = function(target) {
 const pause = function(target) {
   const animationContainer = target.parentElement.parentElement.querySelector(".animation-container");
   const $animation = _getFrameElement(animationContainer);
+  const $bg = $animation.parentElement.parentElement.querySelector(".animation-bg");
 
   if ($animation) {
     $animation.animation.pause();
+    $bg.animation.pause();
 
     animationContainer.parentElement.querySelector(".animation-controls .btn-play").disabled = false;
     animationContainer.parentElement.querySelector(".animation-controls .btn-reverse").disabled = false;
@@ -157,10 +166,12 @@ const pause = function(target) {
 const stop = function(target) {
   const animationContainer = target.parentElement.parentElement.querySelector(".animation-container");
   const $animation = _getFrameElement(animationContainer);
+  const $bg = $animation.parentElement.parentElement.querySelector(".animation-bg");
 
   if ($animation) {
     $animation.animation.loop = false;
     $animation.animation.finish();
+    $bg.animation.pause();
   }
 };
 
@@ -276,19 +287,31 @@ const _initCharacterList = function() {
  * @private
  */
 const _initAnimation = async function($frame) {
+  const $bg = $frame.parentElement.parentElement.querySelector(".animation-bg");
   const keyFrames = await _getKeyFrames($frame);
+  const bgAnimationKeyFrames = [
+    { backgroundPositionX: '-1000px' }
+  ]
   const animationConfig = {
     duration: 500,
     iterations: 1,
     delay: 0,
     easing: `steps(${keyFrames.length}, jump-none)`
   };
+  const bgAnimationConfig = {
+    duration: 20000,
+    iterations: Infinity,
+  };
   const animationDefinition = new KeyframeEffect($frame, keyFrames, animationConfig);
+  const bgAnimationDefinition = new KeyframeEffect($bg, bgAnimationKeyFrames, bgAnimationConfig);
 
   $frame.animation = new Animation(animationDefinition);
+  $bg.animation = new Animation(bgAnimationDefinition);
 
   $frame.animation.onfinish = e => {
     const $animation = e.target.effect.target.parentElement.parentElement;
+
+    $animation.querySelector(".animation-bg").animation.pause();
 
     if ($frame.animation.loop) {
       $animation.querySelector(".animation-controls .btn-loop").click();
