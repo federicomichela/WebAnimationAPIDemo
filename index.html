@@ -43,7 +43,12 @@
     Create a new animation by selecting one from the dropdown menu and clicking the button CREATE
   </h2>
   <div class="creationSection">
-    <select id="animationPicker" name="animationPicker"></select>
+    <select id="characterPicker" name="characterPicker" onchange="initActionsList()">
+      <option>- Select Character -</option>
+    </select>
+    <select id="actionPicker" name="actionPicker">
+      <option>- Select Action -</option>
+    </select>
     <button onclick="createAnimation()">CREATE</button>
   </div>
 

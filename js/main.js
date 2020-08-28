@@ -1,13 +1,41 @@
 /**
+ * @method initActionsList
+ */
+const initActionsList = function() {
+  const animations = this.config.animations;
+  const $characterPicker = this.document.getElementById("characterPicker");
+  const $actionPicker = this.document.getElementById("actionPicker");
+  const character = $characterPicker.value;
+  let i, action, $option;
+
+  // clear options
+  for (i = $actionPicker.options.length - 1; i > -1; i--) {
+    $actionPicker.remove(i);
+  }
+
+  // re-populate
+  for (action in animations.list[character].actions) {
+    $option = document.createElement("option");
+    $option.value = action;
+    $option.text = animations.list[character].actions[action].label;
+
+    $actionPicker.add($option);
+  }
+};
+
+/**
  * @method createAnimation
  */
 const createAnimation = function() {
   const demoAnimation = document.querySelector(".animation");
   const newAnimation = demoAnimation.cloneNode(true);
   const $frame = _getFrameElement(newAnimation);
-  const selectedAnimation = document.getElementById("animationPicker").value;
-  const selectedAnimationLabel = this.config.animations.list[selectedAnimation].label;
-  const selectedAnimationPath = this.config.animations.basePath + this.config.animations.list[selectedAnimation].path;
+  const $characterPicker = document.getElementById("characterPicker");
+  const $actionPicker = document.getElementById("actionPicker");
+  const selectedAnimation = this.config.animations.list[$characterPicker.value].actions[$actionPicker.value];
+  const selectedAnimationLabel = this.config.animations.list[$characterPicker.value].label + " " +
+    this.config.animations.list[$characterPicker.value].actions[$actionPicker.value].label;
+  const selectedAnimationPath = this.config.animations.basePath + selectedAnimation.path;
 
   newAnimation.querySelector(".animation_label").textContent = selectedAnimationLabel;
   $frame.src = selectedAnimationPath + ".png";
@@ -117,7 +145,8 @@ const _onDomReady = async function() {
   const animation1 = document.querySelector(".animationContainer");
 
   this.config = await _getConfig();
-  _initAnimationList();
+
+  _initCharacterList();
   await _initAnimation(_getFrameElement(animation1));
 };
 
@@ -185,7 +214,7 @@ const _getKeyFrames = async function($frame) {
 /**
  * @method _getFrameElement
  * @param $element
- * @returns {HTMLElement}
+ * @returns {HTMLImageElement}
  * @private
  */
 const _getFrameElement = function($element) {
@@ -194,20 +223,20 @@ const _getFrameElement = function($element) {
 
 /**
  * Populates animationPicker Dropdown with available animations (declared in config.json)
- * @method _initAnimationList
+ * @method _initCharacterList
  * @private
  */
-const _initAnimationList = function() {
+const _initCharacterList = function() {
   const animations = this.config.animations;
-  const $select = this.document.getElementById("animationPicker");
-  let animation, $option;
+  const $characterPicker = this.document.getElementById("characterPicker");
+  let character, $option;
 
-  for (animation in animations.list) {
+  for (character in animations.list) {
     $option = document.createElement("option");
-    $option.value = animation;
-    $option.text = animations.list[animation].label;
+    $option.value = character;
+    $option.text = animations.list[character].label;
 
-    $select.add($option);
+    $characterPicker.add($option);
   }
 };
 
