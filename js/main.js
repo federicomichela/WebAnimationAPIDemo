@@ -1,3 +1,20 @@
+const animationComponent = `
+<div class="animation">
+  <div class="animation_label"></div>
+  <div class="animationContainer">
+    <img class="animationFrame" src="" />
+  </div>
+  <div class="controls">
+    <div class="message"></div>
+    <button class="btn-play material-icons" onclick="play(this)"></button>
+    <button class="btn-loop material-icons" onclick="loop(this)"></button>
+    <button class="btn-reverse material-icons flip" onclick="reverse(this)"></button>
+    <button class="btn-pause material-icons" onclick="pause(this)" disabled></button>
+    <button class="btn-stop material-icons" onclick="stop(this)" disabled></button>
+  </div>
+</div>
+`;
+
 /**
  * @method initActionsList
  */
@@ -27,8 +44,9 @@ const initActionsList = function() {
  * @method createAnimation
  */
 const createAnimation = function() {
-  const demoAnimation = document.querySelector(".animation");
-  const newAnimation = demoAnimation.cloneNode(true);
+  const newAnimation = document.createElement('div');
+  newAnimation.innerHTML = animationComponent.trim();
+
   const $frame = _getFrameElement(newAnimation);
   const $characterPicker = document.getElementById("characterPicker");
   const $actionPicker = document.getElementById("actionPicker");
@@ -42,7 +60,7 @@ const createAnimation = function() {
 
   _initAnimation($frame);
 
-  document.getElementById("animationsContainer").appendChild(newAnimation);
+  document.getElementById("animationsContainer").appendChild(newAnimation.firstChild);
 };
 
 /**
@@ -142,12 +160,9 @@ const stop = function(target) {
  * @private
  */
 const _onDomReady = async function() {
-  const animation1 = document.querySelector(".animationContainer");
-
   this.config = await _getConfig();
 
   _initCharacterList();
-  await _initAnimation(_getFrameElement(animation1));
 };
 
 /**
@@ -262,7 +277,7 @@ const _initAnimation = async function($frame) {
   $frame.animation.onfinish = e => {
     const $animation = e.target.effect.target.parentElement.parentElement;
 
-    if($frame.animation.loop) {
+    if ($frame.animation.loop) {
       $animation.querySelector(".controls .btn-loop").click();
     } else {
       $animation.querySelector(".controls .btn-play").disabled = false;
