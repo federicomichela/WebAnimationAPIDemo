@@ -285,19 +285,37 @@ textarea {
   align-items: center;
   justify-content: space-between;
   margin: 5px;
-  background-color: wheat;
-}
-.animationContainer {
-  overflow: hidden;
+  max-width: 200px;
+  max-height: 300px;
   position: relative;
 }
-.animationFrame {
+
+.animation-bg {
+  background: url("../assets/images/background-tile.png") repeat-x;
+  background-size: cover;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.animation-label {
+  text-align: center;
+  z-index: 2;
+}
+
+.animation-container {
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+}
+.animation-frame {
   position: absolute;
 }
-.controls {
+.animation-controls {
   display: flex;
   justify-content: space-around;
-  z-index: 1;
+  z-index: 2;
 }
 
 .pixelart {

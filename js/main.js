@@ -1,10 +1,11 @@
 const animationComponent = `
 <div class="animation">
-  <div class="animation_label"></div>
-  <div class="animationContainer">
-    <img class="animationFrame" src="" alt=""/>
+  <div class="animation-bg"></div>
+  <div class="animation-label"></div>
+  <div class="animation-container">
+    <img class="animation-frame" src="" alt=""/>
   </div>
-  <div class="controls">
+  <div class="animation-controls">
     <div class="message"></div>
     <button class="btn-play material-icons" onclick="play(this)" disabled></button>
     <button class="btn-loop material-icons" onclick="loop(this)" disabled></button>
@@ -57,17 +58,17 @@ const createAnimation = function() {
     this.config.animations.list[$characterPicker.value].actions[$actionPicker.value].label;
   const selectedAnimationPath = this.config.animations.basePath + selectedAnimation.path;
 
-  newAnimation.querySelector(".animation_label").textContent = selectedAnimationLabel;
+  newAnimation.querySelector(".animation-label").textContent = selectedAnimationLabel;
   $frame.alt = selectedAnimationLabel;
   $frame.src = selectedAnimationPath + ".png";
 
   _initAnimation($frame).then(function() {
     console.log(`animation "${selectedAnimationLabel}" ready`)
-    this.querySelector(".controls .btn-play").disabled = false;
-    this.querySelector(".controls .btn-reverse").disabled = false;
-    this.querySelector(".controls .btn-loop").disabled = false;
-    this.querySelector(".controls .btn-pause").disabled = true;
-    this.querySelector(".controls .btn-stop").disabled = true;
+    this.querySelector(".animation-controls .btn-play").disabled = false;
+    this.querySelector(".animation-controls .btn-reverse").disabled = false;
+    this.querySelector(".animation-controls .btn-loop").disabled = false;
+    this.querySelector(".animation-controls .btn-pause").disabled = true;
+    this.querySelector(".animation-controls .btn-stop").disabled = true;
   }.bind(newAnimation.firstChild));
 
   document.getElementById("animationsContainer").appendChild(newAnimation.firstChild);
@@ -78,18 +79,18 @@ const createAnimation = function() {
  * @param {HTMLButtonElement} target
  */
 const play = function(target) {
-  const $animationContainer = target.parentElement.parentElement.querySelector(".animationContainer");
-  const $animation = _getFrameElement($animationContainer);
+  const animationContainer = target.parentElement.parentElement.querySelector(".animation-container");
+  const $animation = _getFrameElement(animationContainer);
 
   if ($animation) {
     $animation.animation.loop = false;
     $animation.animation.playbackRate = 1;
     $animation.animation.play();
 
-    $animationContainer.parentElement.querySelector(".controls .btn-play").disabled = true;
-    $animationContainer.parentElement.querySelector(".controls .btn-reverse").disabled = false;
-    $animationContainer.parentElement.querySelector(".controls .btn-pause").disabled = false;
-    $animationContainer.parentElement.querySelector(".controls .btn-stop").disabled = false;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-play").disabled = true;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-reverse").disabled = false;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-pause").disabled = false;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-stop").disabled = false;
   }
 };
 
@@ -98,17 +99,17 @@ const play = function(target) {
  * @param {HTMLButtonElement} target
  */
 const loop = function(target) {
-  const $animationContainer = target.parentElement.parentElement.querySelector(".animationContainer");
-  const $animation = _getFrameElement($animationContainer);
+  const animationContainer = target.parentElement.parentElement.querySelector(".animation-container");
+  const $animation = _getFrameElement(animationContainer);
 
   if ($animation) {
     $animation.animation.loop = true;
     $animation.animation.play();
 
-    $animationContainer.parentElement.querySelector(".controls .btn-play").disabled = true;
-    $animationContainer.parentElement.querySelector(".controls .btn-reverse").disabled = true;
-    $animationContainer.parentElement.querySelector(".controls .btn-pause").disabled = false;
-    $animationContainer.parentElement.querySelector(".controls .btn-stop").disabled = false;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-play").disabled = true;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-reverse").disabled = true;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-pause").disabled = false;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-stop").disabled = false;
   }
 };
 
@@ -117,17 +118,17 @@ const loop = function(target) {
  * @param {HTMLButtonElement} target
  */
 const reverse = function(target) {
-  const $animationContainer = target.parentElement.parentElement.querySelector(".animationContainer");
-  const $animation = _getFrameElement($animationContainer);
+  const animationContainer = target.parentElement.parentElement.querySelector(".animation-container");
+  const $animation = _getFrameElement(animationContainer);
 
   if ($animation) {
     $animation.animation.loop = false;
     $animation.animation.reverse();
 
-    $animationContainer.parentElement.querySelector(".controls .btn-play").disabled = false;
-    $animationContainer.parentElement.querySelector(".controls .btn-reverse").disabled = true;
-    $animationContainer.parentElement.querySelector(".controls .btn-pause").disabled = false;
-    $animationContainer.parentElement.querySelector(".controls .btn-stop").disabled = false;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-play").disabled = false;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-reverse").disabled = true;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-pause").disabled = false;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-stop").disabled = false;
   }
 };
 
@@ -136,16 +137,16 @@ const reverse = function(target) {
  * @param {HTMLButtonElement} target
  */
 const pause = function(target) {
-  const $animationContainer = target.parentElement.parentElement.querySelector(".animationContainer");
-  const $animation = _getFrameElement($animationContainer);
+  const animationContainer = target.parentElement.parentElement.querySelector(".animation-container");
+  const $animation = _getFrameElement(animationContainer);
 
   if ($animation) {
     $animation.animation.pause();
 
-    $animationContainer.parentElement.querySelector(".controls .btn-play").disabled = false;
-    $animationContainer.parentElement.querySelector(".controls .btn-reverse").disabled = false;
-    $animationContainer.parentElement.querySelector(".controls .btn-pause").disabled = true;
-    $animationContainer.parentElement.querySelector(".controls .btn-stop").disabled = true;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-play").disabled = false;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-reverse").disabled = false;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-pause").disabled = true;
+    animationContainer.parentElement.querySelector(".animation-controls .btn-stop").disabled = true;
   }
 };
 
@@ -154,8 +155,8 @@ const pause = function(target) {
  * @param {HTMLButtonElement} target
  */
 const stop = function(target) {
-  const $animationContainer = target.parentElement.parentElement.querySelector(".animationContainer");
-  const $animation = _getFrameElement($animationContainer);
+  const animationContainer = target.parentElement.parentElement.querySelector(".animation-container");
+  const $animation = _getFrameElement(animationContainer);
 
   if ($animation) {
     $animation.animation.loop = false;
@@ -182,7 +183,7 @@ const _onDomReady = async function() {
  * @private
  */
 const _onResize = async function() {
-  const animations = document.querySelectorAll(".animationContainer");
+  const animations = document.querySelectorAll(".animation-container");
 
   for (let animation of animations) {
     await _calculateBounds(animation);
@@ -243,7 +244,7 @@ const _getKeyFrames = async function($frame) {
  * @private
  */
 const _getFrameElement = function($element) {
-  return $element.querySelector(".animationFrame");
+  return $element.querySelector(".animation-frame");
 };
 
 /**
@@ -290,12 +291,12 @@ const _initAnimation = async function($frame) {
     const $animation = e.target.effect.target.parentElement.parentElement;
 
     if ($frame.animation.loop) {
-      $animation.querySelector(".controls .btn-loop").click();
+      $animation.querySelector(".animation-controls .btn-loop").click();
     } else {
-      $animation.querySelector(".controls .btn-play").disabled = false;
-      $animation.querySelector(".controls .btn-reverse").disabled = false;
-      $animation.querySelector(".controls .btn-pause").disabled = true;
-      $animation.querySelector(".controls .btn-stop").disabled = true;
+      $animation.querySelector(".animation-controls .btn-play").disabled = false;
+      $animation.querySelector(".animation-controls .btn-reverse").disabled = false;
+      $animation.querySelector(".animation-controls .btn-pause").disabled = true;
+      $animation.querySelector(".animation-controls .btn-stop").disabled = true;
     }
   }
 
