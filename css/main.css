@@ -303,3 +303,22 @@ textarea {
 .pixelart {
   image-rendering: pixelated;
 }
+
+.btn-play:after { content: 'play_circle_filled'; }
+.btn-play:disabled:after { content: 'play_circle_outline'; }
+.btn-loop:after {content: 'loop';}
+.btn-reverse:after {content: 'play_circle_filled';}
+.btn-reverse:disabled:after { content: 'play_circle_outline'; }
+.btn-pause:after {content: 'pause_circle_filled';}
+.btn-pause:disabled:after { content: 'pause_circle_outline'; }
+.btn-stop:after {content: 'stop';}
+.btn-stop:disabled:after { content: 'stop_circle'; }
+
+.flip {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}

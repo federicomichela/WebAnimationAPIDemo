@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
 
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
   <meta name="theme-color" content="#fafafa">
 </head>
 
@@ -53,10 +55,11 @@
       </div>
       <div class="controls">
         <div class="message"></div>
-        <button class="btn-play" onclick="play(this)">PLAY</button>
-        <button class="btn-reverse" onclick="reverse(this)">REVERSE</button>
-        <button class="btn-pause" onclick="pause(this)" disabled>PAUSE</button>
-        <button class="btn-stop" onclick="stop(this)" disabled>STOP</button>
+        <button class="btn-play material-icons" onclick="play(this)"></button>
+        <button class="btn-loop material-icons" onclick="loop(this)"></button>
+        <button class="btn-reverse material-icons flip" onclick="reverse(this)"></button>
+        <button class="btn-pause material-icons" onclick="pause(this)" disabled></button>
+        <button class="btn-stop material-icons" onclick="stop(this)" disabled></button>
       </div>
     </div>
   </div>
