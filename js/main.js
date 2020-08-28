@@ -2,12 +2,12 @@ const animationComponent = `
 <div class="animation">
   <div class="animation_label"></div>
   <div class="animationContainer">
-    <img class="animationFrame" src="" />
+    <img class="animationFrame" src="" alt=""/>
   </div>
   <div class="controls">
     <div class="message"></div>
-    <button class="btn-play material-icons" onclick="play(this)"></button>
-    <button class="btn-loop material-icons" onclick="loop(this)"></button>
+    <button class="btn-play material-icons" onclick="play(this)" disabled></button>
+    <button class="btn-loop material-icons" onclick="loop(this)" disabled></button>
     <button class="btn-reverse material-icons flip" onclick="reverse(this)"></button>
     <button class="btn-pause material-icons" onclick="pause(this)" disabled></button>
     <button class="btn-stop material-icons" onclick="stop(this)" disabled></button>
@@ -32,6 +32,8 @@ const initActionsList = function() {
 
   // re-populate
   for (action in animations.list[character].actions) {
+    if (!animations.list[character].actions.hasOwnProperty(action)) continue;
+
     $option = document.createElement("option");
     $option.value = action;
     $option.text = animations.list[character].actions[action].label;
@@ -56,9 +58,17 @@ const createAnimation = function() {
   const selectedAnimationPath = this.config.animations.basePath + selectedAnimation.path;
 
   newAnimation.querySelector(".animation_label").textContent = selectedAnimationLabel;
+  $frame.alt = selectedAnimationLabel;
   $frame.src = selectedAnimationPath + ".png";
 
-  _initAnimation($frame);
+  _initAnimation($frame).then(function() {
+    console.log(`animation "${selectedAnimationLabel}" ready`)
+    this.querySelector(".controls .btn-play").disabled = false;
+    this.querySelector(".controls .btn-reverse").disabled = false;
+    this.querySelector(".controls .btn-loop").disabled = false;
+    this.querySelector(".controls .btn-pause").disabled = true;
+    this.querySelector(".controls .btn-stop").disabled = true;
+  }.bind(newAnimation.firstChild));
 
   document.getElementById("animationsContainer").appendChild(newAnimation.firstChild);
 };
@@ -172,7 +182,7 @@ const _onDomReady = async function() {
  * @private
  */
 const _onResize = async function() {
-  const animations = document.querySelector(".animationContainer");
+  const animations = document.querySelectorAll(".animationContainer");
 
   for (let animation of animations) {
     await _calculateBounds(animation);
@@ -247,6 +257,8 @@ const _initCharacterList = function() {
   let character, $option;
 
   for (character in animations.list) {
+    if (!animations.list.hasOwnProperty(character)) continue;
+
     $option = document.createElement("option");
     $option.value = character;
     $option.text = animations.list[character].label;
